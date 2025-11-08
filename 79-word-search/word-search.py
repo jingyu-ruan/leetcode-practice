@@ -1,33 +1,34 @@
 class Solution:
     def exist(self, board: List[List[str]], word: str) -> bool:
-        cur = 0
-        cur_word = word[cur]
         m = len(board)
         n = len(board[0])
+        # cur = 0
 
-        def dfs(r, c, cur):
+        def bt(cur, r, c):
+            if cur == len(word): 
+                return True
             if r < 0 or r >= m or c < 0 or c >= n or board[r][c] != word[cur]:
                 return False
-            if cur == len(word) - 1:
-                return True
             
-            temp = board[r][c]  # 保存
+            tmp = board[r][c]
             board[r][c] = '#'
-            
-            found = (  # 先递归搜索并保存结果
-                    dfs(r + 1, c, cur + 1) or
-                    dfs(r - 1, c, cur + 1) or
-                    dfs(r, c + 1, cur + 1) or
-                    dfs(r, c - 1, cur + 1)
-                )
 
-            board[r][c] = temp  # 再恢复现场
-            return found 
+            found = (
+                bt(cur+1, r-1, c) or
+                bt(cur+1, r+1, c) or
+                bt(cur+1, r, c-1) or
+                bt(cur+1, r, c+1)
+            )
+
+            board[r][c] = tmp
+            return found
 
         for i in range(m):
             for j in range(n):
-                if dfs(i, j, 0):
+                if bt(0, i, j):
                     return True
-        
         return False
-    
+
+        
+
+                        
