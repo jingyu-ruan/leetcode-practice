@@ -6,24 +6,25 @@
 #         self.right = right
 class Solution:
     def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
-        if not preorder or not inorder:
-            return None
-        
-        root_val = preorder[0]
-        root = TreeNode(root_val)
+        dic = {}
+        for i in range(len(inorder)):
+            dic[inorder[i]] = i
 
-        inorder_root_index = inorder.index(root_val)
+        self.pre_idx = 0
 
-        inorder_left_team = inorder[0 : inorder_root_index]
-        inorder_right_team = inorder[inorder_root_index + 1 : ]
+        def helper(l, r):
+            if l > r:
+                return None
+            root_val = preorder[self.pre_idx]
+            self.pre_idx += 1
 
-        left_team_size = len(inorder_left_team)
-        
-        preorder_left_team = preorder[1 : 1 + left_team_size]
-        preorder_right_team = preorder[1 + left_team_size : ]
+            root = TreeNode(root_val)
 
-        root.left = self.buildTree(preorder_left_team, inorder_left_team)
-        root.right = self.buildTree(preorder_right_team, inorder_right_team)
+            mid = dic[root_val]
 
-        return root
+            root.left = helper(l, mid - 1)
+            root.right = helper(mid + 1, r)
 
+            return root
+
+        return helper(0, len(inorder) - 1)
