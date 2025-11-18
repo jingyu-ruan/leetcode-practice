@@ -3,9 +3,16 @@ class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
         res = []
         cnt = Counter(nums)
-        cnt_lst = list(cnt.items())
-        cnt_lst.sort(key=lambda x: x[1], reverse=True)
-        for i in range(k):
-            res.append(cnt_lst[i][0])
+        
+        bucket = [[] for _ in range(len(nums)+1)]
 
+        for num, i in cnt.items():
+            bucket[i].append(num)
+        
+        for c in range(len(nums), 0, -1):
+            if bucket[c]:
+                for num in bucket[c]:
+                    res.append(num)
+                    if len(res) == k:
+                        return res
         return res
