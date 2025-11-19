@@ -3,11 +3,16 @@ class Solution:
         """
         Do not return anything, modify matrix in-place instead.
         """
-        n = len(matrix)
-        for i in range(n):
-            for j in range(i+1, n):
+        m = len(matrix)
+        # n = len(matrix[0])
+        for i in range(m):
+            for j in range(i + 1, m):
                 matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
-
-        for row in matrix:
-            row.reverse()
+               
+        for i in range(m):
+            l, r = 0, m - 1
+            while l < r:
+                matrix[i][l], matrix[i][r] = matrix[i][r], matrix[i][l]
+                l += 1
+                r -= 1
         
