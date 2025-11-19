@@ -6,7 +6,7 @@ class Solution:
         m = len(matrix)
         # n = len(matrix[0])
         for i in range(m):
-            for j in range(i + 1, m):
+            for j in range(i, m):
                 matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
                
         for i in range(m):
