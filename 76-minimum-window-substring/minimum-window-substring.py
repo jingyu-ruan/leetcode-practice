@@ -1,27 +1,35 @@
+from collections import defaultdict, Counter
 class Solution:
     def minWindow(self, s: str, t: str) -> str:
-        if len(s) < len(t):
-            return ""
-        needstr = collections.defaultdict(int)
-        for ch in t:
-            needstr[ch] += 1
-        needcnt = len(t)
-        res = (0, float('inf'))
-        start = 0
-        for end, ch in enumerate(s):
-            if needstr[ch] > 0:
-                needcnt -= 1
-            needstr[ch] -= 1
-            if needcnt == 0:
-                while True:
-                    tmp = s[start]
-                    if needstr[tmp] == 0:
-                        break
-                    needstr[tmp] += 1
-                    start += 1
-                if end - start < res[1] - res[0]:
-                    res = (start, end)
-                needstr[s[start]] += 1
-                needcnt += 1
-                start += 1
-        return '' if res[1] > len(s) else s[res[0]:res[1]+1]
+        need = Counter(t)
+        need_cnt = len(need)
+        l = 0
+        res = ''
+        res_len = float('inf')
+        window = defaultdict(int)
+        have = 0
+
+        for r, ch in enumerate(s):
+            if ch in need:
+                window[ch] += 1
+                if window[ch] == need[ch]:
+                    have += 1
+            
+            while have == need_cnt:
+                if r - l + 1 < res_len:
+                    res = s[l:r+1]
+                    res_len = r - l + 1
+                
+                left_ch = s[l]
+                if left_ch in need:
+                    window[left_ch] -= 1
+
+                if left_ch in need and window[left_ch] < need[left_ch]:
+                    have -= 1
+
+                l += 1
+
+        return res
+            
+
+            
