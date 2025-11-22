@@ -1,32 +1,29 @@
-from typing import List
-
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
+        if len(nums) < 3:
+            return None
         nums.sort()
         res = []
-        n = len(nums)
-
-        for i in range(n - 2):
-            # 跳过重复的起点，但保留第一次
-            if i > 0 and nums[i] == nums[i - 1]:
+        for i in range(0, len(nums) - 2):
+            if i > 0 and nums[i] == nums[i-1]:
                 continue
-
-            left, right = i + 1, n - 1
-
-            while left < right:
-                s = nums[i] + nums[left] + nums[right]
-
+            l = i + 1
+            r = len(nums) - 1
+            while l < r:
+                s = nums[i] + nums[l] + nums[r]
                 if s == 0:
-                    res.append([nums[i], nums[left], nums[right]])
-                    # 跳过重复的 left 和 right，移动到新值
-                    lv, rv = nums[left], nums[right]
-                    while left < right and nums[left] == lv:
-                        left += 1
-                    while left < right and nums[right] == rv:
-                        right -= 1
-                elif s < 0:
-                    left += 1
+                    res.append([nums[i], nums[l], nums[r]])
+                    val_l = nums[l]
+                    val_r = nums[r]
+                    l += 1
+                    r -= 1
+                    while l < r and nums[l] == val_l:
+                        l += 1
+                    while l < r and nums[r] == val_r:
+                        r -= 1
+                elif s > 0:
+                    r -= 1
                 else:
-                    right -= 1
-
+                    l += 1
+        
         return res
