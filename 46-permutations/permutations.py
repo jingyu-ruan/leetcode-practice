@@ -1,22 +1,19 @@
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
-        if len(nums) == 1:
-            return [[nums[0]]]
-        
-        res = []
+        num_set = set()
+        n = len(nums)
         path = []
-
-        def dfs(lst):
-            n = len(lst)
-            if len(path) == n:
+        res = []
+        def dfs():
+            if len(path) == len(nums):
                 res.append(path[:])
-                return
+                return                
             for i in range(n):
-                if lst[i] not in path:
-                    path.append(lst[i])
-                    dfs(lst)
+                if nums[i] not in num_set:
+                    num_set.add(nums[i])
+                    path.append(nums[i])
+                    dfs()
+                    num_set.remove(nums[i])
                     path.pop()
-
-        dfs(nums)
-
+        dfs()
         return res
