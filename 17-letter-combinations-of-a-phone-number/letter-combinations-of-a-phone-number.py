@@ -1,3 +1,4 @@
+from collections import deque
 class Solution:
     def letterCombinations(self, digits: str) -> List[str]:
         letters = {}
@@ -9,21 +10,25 @@ class Solution:
         letters['7'] = ['p', 'q', 'r', 's']
         letters['8'] = ['t', 'u', 'v']
         letters['9'] = ['w', 'x', 'y', 'z']
-
-        if len(digits) == 1:
-            return letters[digits[0]]
-
         res = []
-        for k in range(len(letters[digits[0]])):
-            res.append(letters[digits[0]][k])
-
-        for i in range(1, len(digits)):
-            s = digits[i]
-            to_append = letters[s]
-            for j in range(len(res)):
-                for l in to_append:
-                    res.append(res[j] + l)
-
-        res = [x for x in res if len(x) == len(digits)]
-
+        queue = deque(letters[digits[0]])
+        n = len(digits)
+        if n == 1:
+            return letters[digits[0]]
+        cur = 1
+        while queue and cur < n:
+            cur_lst = letters[digits[cur]]
+            queue_len = len(queue)
+            for _ in range(queue_len):
+                word = queue.popleft()
+                for l in cur_lst:
+                    if cur != n - 1:
+                        queue.append(word + l)
+                    else:
+                        res.append(word + l)
+            cur += 1
+        
         return res
+                
+
+            
