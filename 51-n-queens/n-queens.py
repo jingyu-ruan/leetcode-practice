@@ -1,35 +1,34 @@
 class Solution:
     def solveNQueens(self, n: int) -> List[List[str]]:
-        res = []
         cols = set()
-        diag1 = set()
-        diag2 = set()
+        dia1 = set()
+        dia2 = set()
         board = [['.'] * n for _ in range(n)]
-
-        def bt(row):
-            if row == n:
-                to_append = []
-                for r in board:
-                    to_append.append(''.join(r))
-                res.append(to_append)
-                return
-
-            for col in range(n):
-                if col in cols or (row - col) in diag1 or (col + row) in diag2:
+        path = []
+        self.to_append = []
+        res = []
+        def dfs(r):
+            if r == n:
+                solution = []
+                for row in board:
+                    solution.append(''.join(row))
+                res.append(solution)
+                return 
+            
+            for c in range(n):
+                if c in cols or c + r in dia1 or c - r in dia2:
                     continue
+                cols.add(c)
+                dia1.add(c + r)
+                dia2.add(c - r)
+                board[r][c] = 'Q'
 
-                board[row][col] = 'Q'
-                cols.add(col)
-                diag1.add(row - col)
-                diag2.add(col + row)
+                dfs(r + 1)
 
-                bt(row + 1)
-
-                board[row][col] = '.'
-                cols.remove(col)
-                diag1.remove(row - col)
-                diag2.remove(col + row)
-
-        bt(0)
-
+                cols.remove(c)
+                dia1.remove(c + r)
+                dia2.remove(c - r)
+                board[r][c] = '.'
+    
+        dfs(0)
         return res
