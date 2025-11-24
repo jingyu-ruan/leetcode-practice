@@ -11,24 +11,13 @@ class Solution:
         letters['8'] = ['t', 'u', 'v']
         letters['9'] = ['w', 'x', 'y', 'z']
         res = []
-        queue = deque(letters[digits[0]])
-        n = len(digits)
-        if n == 1:
-            return letters[digits[0]]
-        cur = 1
-        while queue and cur < n:
-            cur_lst = letters[digits[cur]]
-            queue_len = len(queue)
-            for _ in range(queue_len):
-                word = queue.popleft()
-                for l in cur_lst:
-                    if cur != n - 1:
-                        queue.append(word + l)
-                    else:
-                        res.append(word + l)
-            cur += 1
-        
-        return res
-                
-
-            
+        def dfs(s, i):
+            if len(s) == len(digits):
+                res.append(s)
+                return
+            num = digits[i]
+            words = letters[num]
+            for w in words:
+                dfs(s + w, i + 1)
+        dfs('', 0)
+        return res    
