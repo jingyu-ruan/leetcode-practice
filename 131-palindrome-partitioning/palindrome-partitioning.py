@@ -1,30 +1,29 @@
 class Solution:
     def partition(self, s: str) -> List[List[str]]:
-        res = []
-
-        def palindrome(word):
+        def is_palin(x):
             l = 0
-            r = len(word) - 1
-            while l < r:
-                if word[l] != word[r]:
+            r = len(x) - 1
+            while l <= r:
+                if x[l] != x[r]:
                     return False
                 l += 1
                 r -= 1
             return True
-
-        def bt(start, path):
-            if start == len(s):
+        
+        res = []
+        path = []
+        n = len(s)
+        def dfs(start):
+            if start == n:
                 res.append(path[:])
-                return 
-            
-            for end in range(start, len(s)):
-                sub = s[start:end + 1]
-                if palindrome(sub):
-                    path.append(sub)
-                    bt(end + 1, path)
-                    path.pop()
+                return
+            for j in range(start, n):
+                if not is_palin(s[start:j + 1]):
+                    continue
+                path.append(s[start:j + 1])
+                dfs(j + 1)
+                path.pop()
 
-        bt(0, [])    
-        return res    
-            
 
+        dfs(0)
+        return res
