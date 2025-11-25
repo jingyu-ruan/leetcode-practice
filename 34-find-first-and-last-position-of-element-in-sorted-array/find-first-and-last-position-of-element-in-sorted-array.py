@@ -14,7 +14,8 @@ class Solution:
                     break
                 else:
                     r = m - 1
-
+        if start == -1:
+            return [-1, -1]
         l, r = 0, len(nums) - 1
         while l <= r: # 确定右界
             m = (l + r) // 2
