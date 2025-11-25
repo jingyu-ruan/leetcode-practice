@@ -1,17 +1,17 @@
 class Solution:
     def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
-        layout = []
-        for i in range(0, len(matrix)):
-            layout.extend(matrix[i])
-
-        l, r = 0, len(layout) - 1
+        nums = []
+        for row in matrix:
+            nums.extend(row)
+        n = len(nums)
+        l, r = 0, n - 1
         while l <= r:
             m = (l + r) // 2
-            if layout[m] == target:
-                return True
-            elif layout[m] > target:
+            if nums[m] > target:
                 r = m - 1
-            else:
+            elif nums[m] < target:
                 l = m + 1
-
+            else:
+                return True
+        
         return False
