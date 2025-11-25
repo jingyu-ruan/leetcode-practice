@@ -6,20 +6,23 @@
 #         self.right = right
 class Solution:
     def maxPathSum(self, root: Optional[TreeNode]) -> int:
-        self.max_sum = float('-inf')
-
+        max_sum = float('-inf')
         def dfs(node):
+            nonlocal max_sum
             if not node:
                 return 0
-
+            
             left_gain = max(dfs(node.left), 0)
             right_gain = max(dfs(node.right), 0)
 
-            path_sum = node.val + left_gain + right_gain
-            self.max_sum = max(self.max_sum, path_sum)
+            # 以当前节点为拐点的路径和
+            price_newpath = node.val + left_gain + right_gain
 
+            # 更新全局最大路径和
+            max_sum = max(max_sum, price_newpath)
+
+            # 返回能贡献给父节点的单边最大路径和
             return node.val + max(left_gain, right_gain)
 
         dfs(root)
-        return self.max_sum
-        
+        return max_sum
