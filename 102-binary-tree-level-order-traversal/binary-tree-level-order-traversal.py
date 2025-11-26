@@ -11,19 +11,16 @@ class Solution:
             return []
         res = []
         queue = deque([root])
-
         while queue:
-            l = len(queue)
             to_append = []
-
-            for _ in range(l):
+            n = len(queue)
+            for _ in range(n):
                 node = queue.popleft()
                 to_append.append(node.val)
                 if node.left:
                     queue.append(node.left)
                 if node.right:
                     queue.append(node.right)
-            
             res.append(to_append)
 
         return res
