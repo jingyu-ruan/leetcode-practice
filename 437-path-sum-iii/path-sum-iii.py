@@ -6,22 +6,23 @@
 #         self.right = right
 class Solution:
     def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:
-        self.res = 0
-        def dfs(node, targetSum):
+        res = 0
+        def dfs(node, need):
             if not node:
                 return
-            if node.val == targetSum:
-                self.res += 1
-
-            dfs(node.left, targetSum - node.val)
-            dfs(node.right, targetSum - node.val)
+            if node.val == need:
+                nonlocal res
+                res += 1
+            
+            dfs(node.left, need - node.val)
+            dfs(node.right, need - node.val)
         
-        def pos(node):
+        def helper(node):
             if not node:
-                return 
+                return
             dfs(node, targetSum)
-            pos(node.left)
-            pos(node.right)
+            helper(node.left)
+            helper(node.right)
 
-        pos(root)
-        return self.res
+        helper(root)    
+        return res
