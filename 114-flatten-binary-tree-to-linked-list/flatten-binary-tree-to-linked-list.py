@@ -10,18 +10,19 @@ class Solution:
         """
         Do not return anything, modify root in-place instead.
         """
-        if root:
+        if root and (root.left or root.right):
             nodes = deque()
-            def dfs(node):
+            def preorder(node):
                 if not node:
                     return
                 nodes.append(node)
-                dfs(node.left)
-                dfs(node.right)
-            dfs(root)
+                preorder(node.left)
+                preorder(node.right)
 
-            for i in range(1, len(nodes)):
-                prev = nodes[i - 1]
-                cur = nodes[i]
-                prev.left = None
-                prev.right = cur
+            preorder(root) 
+            cur = root
+            for i in range(len(nodes)):
+                node = nodes.popleft()
+                cur.left = None
+                cur.right = node
+                cur = cur.right
