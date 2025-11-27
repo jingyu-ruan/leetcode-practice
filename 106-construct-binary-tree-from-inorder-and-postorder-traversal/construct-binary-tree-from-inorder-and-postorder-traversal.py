@@ -8,21 +8,18 @@ class Solution:
     def buildTree(self, inorder: List[int], postorder: List[int]) -> Optional[TreeNode]:
         n = len(inorder)
         pre_i = n - 1
-
         def dfs(l, r):
-            nonlocal pre_i
             if l > r:
-                return None
-            
-            root_val = postorder[pre_i]
-            mid = inorder.index(root_val)
-            root = TreeNode(root_val)
-
+                return
+            nonlocal pre_i
+            nodeval = postorder[pre_i]
+            node = TreeNode(nodeval)
+            m = inorder.index(nodeval)
             pre_i -= 1
+            node.right = dfs(m + 1, r)
+            node.left = dfs(l, m - 1)
+            
 
-            root.right = dfs(mid + 1, r)
-            root.left  = dfs(l, mid - 1)
-
-            return root
-
+            return node
+        
         return dfs(0, n - 1)
