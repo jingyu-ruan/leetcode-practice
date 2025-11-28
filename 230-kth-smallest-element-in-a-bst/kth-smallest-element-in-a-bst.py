@@ -13,5 +13,6 @@ class Solution:
             dfs(node.left)
             vals.append(node.val)
             dfs(node.right)
+
         dfs(root)
         return vals[k-1]
