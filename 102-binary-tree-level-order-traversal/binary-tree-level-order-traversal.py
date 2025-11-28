@@ -12,15 +12,17 @@ class Solution:
         res = []
         queue = deque([root])
         while queue:
-            to_append = []
+            path = []
             n = len(queue)
-            for _ in range(n):
+            for i in range(n):
                 node = queue.popleft()
-                to_append.append(node.val)
                 if node.left:
                     queue.append(node.left)
                 if node.right:
                     queue.append(node.right)
-            res.append(to_append)
-
+                
+                path.append(node.val)
+                if i == n - 1:
+                    res.append(path)
+        
         return res
