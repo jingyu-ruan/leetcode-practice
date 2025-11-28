@@ -1,19 +1,18 @@
 class Solution:
     def canPartition(self, nums: List[int]) -> bool:
-        total = sum(nums)
-
-        if total % 2 == 1:
+        if sum(nums) % 2 == 1:
             return False
         
-        half = total / 2
-        dp = set()
-        dp.add(0)
+        need = sum(nums) / 2
+        n = len(nums)
+        num_set = set()
+        num_set.add(0)
 
-        for i in range(len(nums)):
-            nxt_dp = set()
-            for j in dp:
-                nxt_dp.add(j + nums[i])
-                nxt_dp.add(j)
-            dp = nxt_dp
-
-        return half in dp
+        for i in range(n):
+            lst = list(num_set)
+            for j in lst:
+                num_set.add(j + nums[i])
+        
+        if need in num_set:
+            return True
+        return False
