@@ -4,29 +4,21 @@ class Solution:
         n = len(grid[0])
         res = 0
 
-        def dfs(r, c):
-            if grid[r][c] != '1':
-                return 
+        def dfs(i, j):
+            if i < 0 or i >= m or j < 0 or j >= n or grid[i][j] == '0':
+                return
+            
+            if grid[i][j] == '1':
+                grid[i][j] = '0'
+                dfs(i + 1, j)
+                dfs(i - 1, j)
+                dfs(i, j + 1)
+                dfs(i, j - 1)
 
-            if grid[r][c] == '1':
-                grid[r][c] = '#'            
-            if r - 1 >= 0:
-                dfs(r - 1, c)
-            if r + 1 < m:
-                dfs(r + 1, c)
-            if c - 1 >= 0:
-                dfs(r, c - 1)
-            if c + 1 < n:
-                dfs(r, c + 1)
-
-        for i in range(m):
-            for j in range(n):
-                if grid[i][j] == '1':
-                    dfs(i, j)
+        for r in range(m):
+            for c in range(n):
+                if grid[r][c] == '1':
                     res += 1
+                    dfs(r, c)
 
         return res
-            
-
-
-
