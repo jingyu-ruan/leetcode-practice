@@ -1,16 +1,18 @@
+from collections import Counter
 class Solution:
     def partitionLabels(self, s: str) -> List[int]:
-        lst = {}
-        for i, ch in enumerate(s):
-            lst[ch] = i
+        dic = Counter(s)
+        n = len(s)
+        words = set()
+        
+        l = 0
         res = []
-        start = 0
-        end = 0
         for i, ch in enumerate(s):
-            end = max(end, lst[s[i]])
-
-            if i == end:
-                res.append(end - start + 1)
-                start = i + 1
-
+            words.add(ch)
+            dic[ch] -= 1
+            if all(dic[w] == 0 for w in words):
+                res.append(i - l + 1)
+                l = i + 1
+                words = set()
+        
         return res
