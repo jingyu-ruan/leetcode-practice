@@ -1,12 +1,14 @@
 class Solution:
     def jump(self, nums: List[int]) -> int:
-        m = len(nums)
-        dp = [float('inf')] * m
+        n = len(nums)
+        if n == 1:
+            return 0
+        dp = [float('inf')] * n
         dp[0] = 0
+        reach = nums[0]
 
-        for i in range(1, m):
-            for j in range(0, i):
-                if i - j <= nums[j]:
-                    dp[i] = min(dp[i], dp[j] + 1)
+        for i in range(n):
+            for j in range(i + 1, min(n, i + nums[i] + 1)):
+                dp[j] = min(dp[j], 1 + dp[i])
 
         return dp[-1]
