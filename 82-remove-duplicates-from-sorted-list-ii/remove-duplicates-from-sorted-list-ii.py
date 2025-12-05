@@ -18,7 +18,6 @@ class Solution:
                 duplicate_val = cur.val
                 while cur and cur.val == duplicate_val:
                     cur = cur.next
-                
                 left.next = cur
             else:
                 left = cur
