@@ -4,15 +4,12 @@ class Solution:
         Do not return anything, modify matrix in-place instead.
         """
         m = len(matrix)
-        # n = len(matrix[0])
+        n = len(matrix[0])
         for i in range(m):
-            for j in range(i, m):
+            for j in range(i, n):
                 matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
-               
+        
+        
         for i in range(m):
-            l, r = 0, m - 1
-            while l < r:
-                matrix[i][l], matrix[i][r] = matrix[i][r], matrix[i][l]
-                l += 1
-                r -= 1
+            matrix[i].reverse()
         
