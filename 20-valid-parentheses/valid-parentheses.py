@@ -1,17 +1,20 @@
 class Solution:
     def isValid(self, s: str) -> bool:
-        stk = []
-        dic = {']': '[', '}': '{', ')': '('}
+        stack = []
+        matches = {')': '(', ']': '[', '}': '{'}
         for ch in s:
             if ch in ['(', '[', '{']:
-                stk.append(ch)
-            if ch in [')', ']', '}']:
-                if not stk:
+                stack.append(ch)
+            else:
+                if not stack:
                     return False
-                elif stk[-1] == dic[ch]:
-                    stk.pop()
                 else:
-                    return False
+                    if stack[-1] != matches[ch]:
+                        return False
+                    else:
+                        stack.pop()
         
-        return True if not stk else False
-            
+        if not stack:
+            return True
+        else:
+            return False
