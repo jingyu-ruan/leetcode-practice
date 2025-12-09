@@ -19,7 +19,6 @@ class Trie:
             node = node[ch]
         return '#' in node
 
-
     def startsWith(self, prefix: str) -> bool:
         node = self.root
         for ch in prefix:
