@@ -1,14 +1,12 @@
-
 class Solution:
     def firstMissingPositive(self, nums: List[int]) -> int:
-        n = len(nums)
-
-        for i in range(n):
-            while 1 <= nums[i] <= n and nums[nums[i] - 1] != nums[i]:
-                correct = nums[i] - 1
-                nums[i], nums[correct] = nums[correct], nums[i]
-        for i in range(n):
-            if nums[i] != i + 1:
-                return i + 1
+        bucket = set()
+        for i, v in enumerate(nums):
+            if v > 0:
+                bucket.add(v)
         
-        return n + 1
+        res = 1
+        while True:
+            if res not in bucket:
+                return res
+            res += 1
