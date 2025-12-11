@@ -1,16 +1,10 @@
 from collections import defaultdict
 class Solution:
     def majorityElement(self, nums: List[int]) -> int:
-        cnt = 0
-        candi = 0
-
+        n = len(nums)
+        dic = defaultdict(int)
+        reach = n // 2 + 1
         for i in nums:
-            if cnt == 0:
-                candi = i
-            
-            if i == candi:
-                cnt += 1
-            else:
-                cnt -= 1
-        
-        return candi
+            dic[i] += 1
+            if dic[i] == reach:
+                return i
