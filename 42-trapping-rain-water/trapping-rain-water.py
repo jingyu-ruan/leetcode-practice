@@ -3,15 +3,15 @@ class Solution:
         n = len(height)
         left = [0] * n
         right = [0] * n
-        max_left = 0
-        max_right = 0
-        for i in range(n):
-            left[i] = max_left
-            max_left = max(max_left, height[i])
-        
-        for i in range(n - 1, -1, -1):
-            right[i] = max_right
-            max_right = max(max_right, height[i])
+
+        left_max = height[0]
+        for i in range(1, n):
+            left[i] = left_max
+            left_max = max(left_max, height[i])
+        right_max = height[-1]
+        for i in range(n - 2, -1, -1):
+            right[i] = right_max
+            right_max = max(right_max, height[i])
         
         res = 0
         for i in range(n):
