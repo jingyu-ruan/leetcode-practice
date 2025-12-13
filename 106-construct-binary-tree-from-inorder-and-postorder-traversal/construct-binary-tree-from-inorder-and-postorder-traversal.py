@@ -6,20 +6,22 @@
 #         self.right = right
 class Solution:
     def buildTree(self, inorder: List[int], postorder: List[int]) -> Optional[TreeNode]:
+        dic = {v: i for i, v in enumerate(inorder)}
         n = len(inorder)
-        pre_i = n - 1
+        post_i = n - 1
         def dfs(l, r):
+            nonlocal post_i
             if l > r:
-                return
-            nonlocal pre_i
-            nodeval = postorder[pre_i]
-            node = TreeNode(nodeval)
-            m = inorder.index(nodeval)
-            pre_i -= 1
-            node.right = dfs(m + 1, r)
-            node.left = dfs(l, m - 1)
+                return None
             
+            v = postorder[post_i]
+            idx = dic[v]
+            node = TreeNode(v)
+            post_i -= 1
+            
+            node.right = dfs(idx + 1, r)
+            node.left = dfs(l, idx - 1)
 
             return node
-        
+
         return dfs(0, n - 1)
