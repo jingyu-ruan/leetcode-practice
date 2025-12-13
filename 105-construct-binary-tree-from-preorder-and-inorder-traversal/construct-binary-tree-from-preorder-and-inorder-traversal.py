@@ -11,14 +11,18 @@ class Solution:
             nonlocal pre_i
             if l > r:
                 return None
-            nodeval = preorder[pre_i]
-            node = TreeNode(nodeval)
-            m = inorder.index(nodeval)
+
+            v = preorder[pre_i]
+            idx = inorder.index(v)
+            node = TreeNode(v)
             pre_i += 1
 
-            node.left = dfs(l, m - 1)
-            node.right = dfs(m + 1, r)
+            node.left = dfs(l, idx - 1)
+            node.right = dfs(idx + 1, r)
 
             return node
-
+        
         return dfs(0, len(preorder) - 1)
+
+        
+            
