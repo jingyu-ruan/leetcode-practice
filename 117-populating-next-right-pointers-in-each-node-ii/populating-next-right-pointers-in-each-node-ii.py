@@ -11,30 +11,22 @@ from collections import deque
 class Solution:
     def connect(self, root: 'Node') -> 'Node':
         if not root:
-            return None
+            return
+        
+        q = deque([root])
 
-        queue = deque([root])
-        while queue:
-            n = len(queue)
-            cur = 0
+        while q:
+            n = len(q)
+            for i in range(n - 1):
+                q[i].next = q[i + 1]
+            
+            q[-1].next = None
+
             for i in range(n):
-                node = queue.popleft()
+                node = q.popleft()
                 if node.left:
-                    queue.append(node.left)
+                    q.append(node.left)
                 if node.right:
-                    queue.append(node.right)
-
-                if i == 0:
-                    prev = node
-                elif i == n - 1:
-                    prev.next = node
-                    node.next = None
-                else:
-                    prev.next = node
-                    prev = node
-
+                    q.append(node.right)
+        
         return root
-                    
-                
-
-                
