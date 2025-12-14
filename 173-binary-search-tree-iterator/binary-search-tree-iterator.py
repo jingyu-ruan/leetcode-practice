@@ -5,17 +5,16 @@
 #         self.left = left
 #         self.right = right
 class BSTIterator:
-
     def __init__(self, root: Optional[TreeNode]):
         self.inorder = []
         self.cur = -1
         def dfs(node):
             if not node:
                 return 
+            
             dfs(node.left)
             self.inorder.append(node.val)
             dfs(node.right)
-        
         dfs(root)
 
     def next(self) -> int:
@@ -23,11 +22,10 @@ class BSTIterator:
         return self.inorder[self.cur]
 
     def hasNext(self) -> bool:
-        n = len(self.inorder)
-        if self.cur >= n - 1:
-            return False
-        else:
+        if self.cur + 1 < len(self.inorder):
             return True
+        
+        return False
 
 
 # Your BSTIterator object will be instantiated and called as such:
