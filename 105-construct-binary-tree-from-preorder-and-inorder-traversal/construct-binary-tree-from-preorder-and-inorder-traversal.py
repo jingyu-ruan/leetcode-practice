@@ -7,13 +7,15 @@
 class Solution:
     def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
         pre_i = 0
+        dic = {v: i for i, v in enumerate(inorder)}
+
         def dfs(l, r):
             nonlocal pre_i
             if l > r:
-                return None
-
+                return
+            
             v = preorder[pre_i]
-            idx = inorder.index(v)
+            idx = dic[v]
             node = TreeNode(v)
             pre_i += 1
 
@@ -22,7 +24,4 @@ class Solution:
 
             return node
         
-        return dfs(0, len(preorder) - 1)
-
-        
-            
+        return dfs(0, len(inorder) - 1)
