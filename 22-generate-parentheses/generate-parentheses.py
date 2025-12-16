@@ -1,20 +1,16 @@
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
         res = []
-        def dfs(str):
-            if len(str) == 2 * n:
-                res.append(str)
+        def dfs(path, left, right):
+            if left == right == 0:
+                res.append(path)
                 return
             
-            if str.count('(') == str.count(')'):
-                dfs(str + '(')
-            if str.count('(') > str.count(')'):
-                if str.count('(') < n:
-                    dfs(str + '(')
-                    dfs(str + ')')
-                else:
-                    dfs(str + ')')
+            if left > 0:
+                dfs(path + '(', left - 1, right)
+            
+            if right > 0 and left < right:
+                dfs(path + ')', left, right - 1)
         
-        dfs('(')
-
+        dfs('', n, n)
         return res
