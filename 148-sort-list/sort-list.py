@@ -3,25 +3,21 @@
 #     def __init__(self, val=0, next=None):
 #         self.val = val
 #         self.next = next
-import heapq
 class Solution:
     def sortList(self, head: Optional[ListNode]) -> Optional[ListNode]:
         if not head:
-            return None
-
+            return 
         cur = head
-        heap = []
-        cnt = 0
+        lst = []
         while cur:
-            heapq.heappush(heap, (cur.val, cnt, cur))
+            lst.append((cur.val, cur))
             cur = cur.next
-            cnt += 1
-        dummy = ListNode(0)
-        cur = dummy
-        while heap:
-            v, c, node = heapq.heappop(heap)
-            cur.next = node
+        lst.sort(key=lambda x: x[0])
+        head2 = lst[0][1]
+        cur = head2
+        for i in range(1, len(lst)):
+            cur.next = lst[i][1]
             cur = cur.next
         
         cur.next = None
-        return dummy.next
+        return head2
