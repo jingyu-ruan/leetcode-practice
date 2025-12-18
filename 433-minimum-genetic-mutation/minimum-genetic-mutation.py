@@ -1,27 +1,22 @@
 from collections import deque
 class Solution:
     def minMutation(self, startGene: str, endGene: str, bank: List[str]) -> int:
-        bank = set(bank)
-        visited = set(startGene)
         if endGene not in bank:
             return -1
-        q = deque([(startGene, 0)])
+        
+        visited = set(startGene)
         choices = ['A', 'C', 'G', 'T']
+        q = deque([(startGene, 0)])
         while q:
-            gene, step = q.popleft()
-            if gene == endGene:
-                return step
+            gene, t = q.popleft()
             for i in range(len(gene)):
-                original_char = gene[i]
-
-                for char in choices:
-                    if char == original_char:
-                        continue
-                    
-                    next_gene = gene[:i] + char + gene[i+1:]
-
-                    if next_gene in bank and next_gene not in visited:
-                        visited.add(next_gene)
-                        q.append((next_gene, step + 1))
+                for a in choices:
+                    if gene[i] != a:
+                        new_gene = gene[:i] + a + gene[i+1:]
+                        if new_gene == endGene:
+                            return t + 1
+                        if new_gene in bank and new_gene not in visited:
+                            q.append((new_gene, t + 1))
+                            visited.add(new_gene)
         
         return -1
