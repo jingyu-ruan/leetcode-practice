@@ -1,4 +1,4 @@
-from collections import deque
+# from collections import deque
 class Solution:
     def letterCombinations(self, digits: str) -> List[str]:
         letters = {}
@@ -11,13 +11,14 @@ class Solution:
         letters['8'] = ['t', 'u', 'v']
         letters['9'] = ['w', 'x', 'y', 'z']
         res = []
-        def dfs(s, i):
-            if len(s) == len(digits):
-                res.append(s)
+        def dfs(path, i):
+            if i == len(digits):
+                res.append(path[:])
                 return
-            num = digits[i]
-            words = letters[num]
-            for w in words:
-                dfs(s + w, i + 1)
+            
+            for j in letters[digits[i]]:
+                dfs(path + j, i + 1)
+
         dfs('', 0)
-        return res    
+
+        return res
