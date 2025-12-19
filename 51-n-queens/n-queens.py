@@ -1,38 +1,37 @@
 class Solution:
     def solveNQueens(self, n: int) -> List[List[str]]:
         cols = set()
-        dia1 = set()
-        dia2 = set()
+        diag1 = set()
+        diag2 = set()
+        board = [['.'] * n for _ in range(n)]
         res = []
-        path = []
         queens = []
-        def dfs(i):
-            # base case
-            if i == n:
-                queens.append(path[:])
-                return
 
-            for j in range(n):
-                if j not in cols and i + j not in dia1 and i - j not in dia2:
-                    cols.add(j)
-                    dia1.add(i + j)
-                    dia2.add(i - j)
-                    path.append((i, j))
-                    dfs(i + 1)
-                    cols.remove(j)
-                    dia1.remove(i + j)
-                    dia2.remove(i - j)
-                    path.pop()
+        def dfs(r):
+            if r == n:
+                for a, b in queens:
+                    nonlocal board
+                    board[a][b] = 'Q'
+                m = []
+                for row in board:
+                    m.append(''.join(row))
+                res.append(m)
+                board = [['.'] * n for _ in range(n)]
+                return
+            
+            for c in range(n):
+                if c not in cols and r + c not in diag1 and r - c not in diag2:
+                    cols.add(c)
+                    diag1.add(r + c)
+                    diag2.add(r - c)
+                    queens.append((r, c))
+
+                    dfs(r + 1)
+
+                    cols.remove(c)
+                    diag1.remove(r + c)
+                    diag2.remove(r - c)
+                    queens.pop()
         
         dfs(0)
-
-        for pos in queens:
-            board = [['.'] * n for _ in range(n)]
-            for i, j in pos:
-                board[i][j] = 'Q'
-            upload = []
-            for row in board:
-                upload.append(''.join(row))
-            res.append(upload)
-
         return res
