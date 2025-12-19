@@ -1,23 +1,18 @@
 class Solution:
     def subsets(self, nums: List[int]) -> List[List[int]]:
-        if not nums:
-            return []
-        
         res = []
+        n = len(nums)
+        num_set = set()
+        def dfs(path, idx):
+            res.append(path)
+            if len(path) == n:
+                return
 
-        def bt(lst, path, start):
-            n = len(lst)
-
-            
-            res.append(path[:])
-
-            for i in range(start, n):
-                path.append(lst[i])
-                
-                bt(lst, path, i + 1)
-                
-                path.pop()
-
-        bt(nums, [], 0)
-
+            for i in range(idx, n):
+                if nums[i] not in num_set:
+                    num_set.add(nums[i])
+                    dfs(path + [nums[i]], i)
+                    num_set.remove(nums[i])
+        
+        dfs([], 0)
         return res
