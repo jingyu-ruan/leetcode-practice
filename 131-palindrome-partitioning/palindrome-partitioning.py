@@ -1,29 +1,23 @@
 class Solution:
     def partition(self, s: str) -> List[List[str]]:
-        def is_palin(x):
-            l = 0
-            r = len(x) - 1
+        def is_palin(l, r):
             while l <= r:
-                if x[l] != x[r]:
+                if s[l] != s[r]:
                     return False
                 l += 1
                 r -= 1
             return True
         
         res = []
-        path = []
         n = len(s)
-        def dfs(start):
+        def dfs(path, start):
             if start == n:
                 res.append(path[:])
                 return
-            for j in range(start, n):
-                if not is_palin(s[start:j + 1]):
-                    continue
-                path.append(s[start:j + 1])
-                dfs(j + 1)
-                path.pop()
-
-
-        dfs(0)
+            
+            for i in range(start, n):
+                if is_palin(start, i):
+                    dfs(path + [s[start:i+1]], i + 1)
+        
+        dfs([], 0)
         return res
