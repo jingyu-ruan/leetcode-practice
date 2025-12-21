@@ -4,8 +4,9 @@ class Solution:
         l, r = 0, n - 1
         while l < r:
             m = (l + r) // 2
-            if nums[m] < nums[m+1]:
-                l = m + 1
-            else:
+            if nums[m] > nums[m + 1]:
                 r = m
+            else:
+                l = m + 1
+
         return l
