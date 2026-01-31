@@ -1,62 +1,57 @@
-class Node:
-    def __init__(self, key, value):
+class LinkedNode:
+    def __init__(self, key=0, val=0):
         self.key = key
-        self.value = value
+        self.val = val
         self.prev = None
         self.next = None
 
 class LRUCache:
     def __init__(self, capacity: int):
         self.capacity = capacity
-        self.cache = {}
-        self.head = Node(0, 0)
-        self.tail = Node(0, 0)
+        self.cache = dict()
+        self.head = LinkedNode()
+        self.tail = LinkedNode()
         self.head.next = self.tail
         self.tail.prev = self.head
-    
+
     def remove(self, node):
-        pre = node.prev
-        nxt = node.next
-        pre.next = nxt
-        nxt.prev = pre
+        left = node.prev
+        right = node.next
+        left.next = right
+        right.prev = left
     
-    def add_to_head(self, node):
-        nxt = self.head.next
-        node.next = nxt
-        node.prev = self.head
+    def add_to_left(self, node):
+        right = self.head.next
         self.head.next = node
-        nxt.prev = node
-    
-    def move_to_head(self, node):
-        self.remove(node)
-        self.add_to_head(node)
-    
-    def pop(self):
-        node = self.tail.prev
-        self.remove(node)
-        return node
+        node.prev = self.head
+        node.next = right
+        right.prev = node
 
     def get(self, key: int) -> int:
         if key not in self.cache:
             return -1
-
         node = self.cache[key]
-        self.move_to_head(node)
-        return node.value
+        
+        self.remove(node)
+        self.add_to_left(node)
+        
+        return node.val
 
     def put(self, key: int, value: int) -> None:
         if key in self.cache:
             node = self.cache[key]
-            self.move_to_head(node)
-            node.value = value
+            node.val = value
+            self.remove(node)
+            self.add_to_left(node)
         else:
-            self.cache[key] = Node(key, value)
-            node = self.cache[key]
-            self.add_to_head(node)
-
-        if len(self.cache) > self.capacity:
-            node = self.pop()
-            del self.cache[node.key]
+            node = LinkedNode(key, value)
+            self.cache[key] = node
+            self.add_to_left(node)
+            
+            if len(self.cache) > self.capacity:
+                removed = self.tail.prev
+                self.remove(removed)
+                del self.cache[removed.key]
 
 
 # Your LRUCache object will be instantiated and called as such:
