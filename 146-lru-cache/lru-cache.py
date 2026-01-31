@@ -31,28 +31,24 @@ class LRUCache:
         if key not in self.cache:
             return -1
         node = self.cache[key]
-        
         self.remove(node)
         self.add_to_left(node)
-        
         return node.val
 
     def put(self, key: int, value: int) -> None:
-        if key in self.cache:
-            node = self.cache[key]
-            node.val = value
-            self.remove(node)
-            self.add_to_left(node)
-        else:
+        if key not in self.cache:
             node = LinkedNode(key, value)
-            self.cache[key] = node
             self.add_to_left(node)
-            
-            if len(self.cache) > self.capacity:
-                removed = self.tail.prev
-                self.remove(removed)
-                del self.cache[removed.key]
-
+            self.cache[key] = node
+        else:
+            self.remove(self.cache[key])
+            node = LinkedNode(key, value)
+            self.add_to_left(node)
+            self.cache[key] = node
+        if len(self.cache) > self.capacity:
+            node = self.tail.prev
+            self.remove(node)
+            del self.cache[node.key]
 
 # Your LRUCache object will be instantiated and called as such:
 # obj = LRUCache(capacity)
