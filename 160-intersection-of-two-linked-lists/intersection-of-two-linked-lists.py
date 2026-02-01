@@ -6,17 +6,18 @@
 
 class Solution:
     def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> Optional[ListNode]:
-        path = set()
-        cur = headA
-        while cur:
-            path.add(cur)
-            cur = cur.next
+        cur1 = headA
+        cur2 = headB
+        while cur1 != cur2:
+
+            if not cur1:
+                cur1 = headB
+            else:
+                cur1 = cur1.next
+            
+            if not cur2:
+                cur2 = headA
+            else:
+                cur2 = cur2.next
         
-        cur = headB
-        while cur:
-            if cur in path:
-                return cur
-            cur = cur.next
-        
-        return None
-        
+        return cur1
