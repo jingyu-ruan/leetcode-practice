@@ -1,15 +1,16 @@
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
-        n = len(nums)
+        occur = set()
         res = []
-        def dfs(path, num_set, i):
-            if i == n:
+        def dfs(n, path):
+            if n == len(nums):
                 res.append(path[:])
-            
-            for j in range(n):
-                if nums[j] not in num_set:
-                    dfs(path + [nums[j]], num_set.union({nums[j]}), i + 1)
+                return
+            for i in range(len(nums)):
+                if nums[i] not in occur:
+                    occur.add(nums[i])
+                    dfs(n + 1, path + [nums[i]])
+                    occur.remove(nums[i])
         
-        dfs([], set(), 0)
-
+        dfs(0, [])
         return res
