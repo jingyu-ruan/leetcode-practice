@@ -23,12 +23,17 @@ class Solution:
             prev = cur
             cur = nxt
         
-        first, second = head, prev
-        while second:
-            tmp1, tmp2 = first.next, second.next
+        # cur = head
+        cur1 = head
+        cur2 = prev
+        while cur2:
+            nxt1 = cur1.next
+            nxt2 = cur2.next
 
-            first.next = second
-            second.next = tmp1
-            
-            first, second = tmp1, tmp2
+            cur1.next = cur2
+            cur2.next = nxt1
+
+            cur1 = nxt1
+            cur2 = nxt2
         
+        # cur.next = None
