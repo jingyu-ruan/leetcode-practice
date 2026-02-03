@@ -1,17 +1,16 @@
+from collections import deque
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
+        q = deque([('(', 1, 0)])
         res = []
-        def dfs(left, right, path):
+        while q:
+            path, left, right = q.popleft()
             if left == right == n:
                 res.append(''.join(path[:]))
-                return
-            if left == n:
-                dfs(left, right + 1, path + [')'])
-            
-            if left < n:
+            if left <= n:
                 if left > right:
-                    dfs(left, right + 1, path + [')'])
-                dfs(left + 1, right, path + ['('])
+                    q.append((path + ')', left, right + 1))
+                if left < n:
+                    q.append((path + '(', left + 1, right))
         
-        dfs(0, 0, [])
         return res
