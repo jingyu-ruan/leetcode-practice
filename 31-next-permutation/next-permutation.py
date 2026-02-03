@@ -3,24 +3,22 @@ class Solution:
         """
         Do not return anything, modify nums in-place instead.
         """
+        # 1, 2, 3
+        #    t  i
         n = len(nums)
-        r = n - 1
-        while r > 0 and nums[r-1] >= nums[r]:
-            r -= 1
-        
-        if r == 0:
+        i = n - 1
+        while i > 0 and nums[i-1] >= nums[i]:
+            i -= 1
+        if i == 0:
             nums.reverse()
             return
-        
+        t = i - 1
         j = n - 1
-        while j >= r and nums[j] <= nums[r-1]:
+        while j > t and nums[j] <= nums[t]:
             j -= 1
-        
-        nums[r-1], nums[j] = nums[j], nums[r-1]
-        left = r          
-        right = n - 1     
-        while left < right:
-            nums[left], nums[right] = nums[right], nums[left]
-            left += 1
-            right -= 1
-        
+        nums[t], nums[j] = nums[j], nums[t]
+        l, r = t + 1, n - 1
+        while l < r:
+            nums[l], nums[r] = nums[r], nums[l]
+            r -= 1
+            l += 1
