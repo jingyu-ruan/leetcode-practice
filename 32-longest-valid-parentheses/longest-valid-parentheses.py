@@ -1,20 +1,18 @@
 class Solution:
     def longestValidParentheses(self, s: str) -> int:
-        stack = [-1]      # 栈里放下标，先放个哨兵
+        stack = [-1]
         res = 0
-
         for i, ch in enumerate(s):
             if ch == '(':
                 stack.append(i)
-            else:  # ch == ')'
-                stack.pop()      # 先尝试匹配一个 '('
+            if ch == ')':
+                stack.pop()
                 if not stack:
-                    # 栈空说明这个 ')' 没法和前面的 '(' 匹配
-                    # 把当前下标作为「新的不合法边界」
+                    # 如果栈空了，说明刚才弹出的不是左括号，而是之前的“参照物”
+                    # 这意味着当前的 ')' 多余了，它变成了新的“参照物”
                     stack.append(i)
                 else:
-                    # 栈不空，说明有合法匹配
-                    # 当前合法长度 = i - 栈顶下标
+                    # 如果栈不空，说明匹配成功
+                    # 长度 = 当前下标 - 栈顶(即上一个未匹配的位置)
                     res = max(res, i - stack[-1])
-
         return res
