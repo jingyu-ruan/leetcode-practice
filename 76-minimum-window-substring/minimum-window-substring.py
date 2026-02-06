@@ -1,35 +1,28 @@
 from collections import Counter, defaultdict
 class Solution:
     def minWindow(self, s: str, t: str) -> str:
-        if len(t) > len(s):
-            return ''
-        
         need = Counter(t)
+        cur = defaultdict(int)
         fulfilled = 0
+        res_len = float('inf')
         l = 0
-        window = defaultdict(int)
-        min_len = float('inf')
         res = ''
-        for i, v in enumerate(s):
-            if v in need:
-                window[v] += 1
-                if window[v] == need[v]:
+        for i, ch in enumerate(s):
+            if ch in need:
+                cur[ch] += 1
+                if cur[ch] == need[ch]:
                     fulfilled += 1
-
-            while fulfilled == len(need):
-                d = s[l]
-                if d in need:
-                    window[d] -= 1
-                    if window[d] < need[d]:
-                        fulfilled -= 1
-                l += 1
-            
-                if i - l + 2 < min_len:
-                    min_len = i - l + 2
-                    res = s[l-1:i+1]
-            
-        
+                    while fulfilled == len(need):
+                        if (i - l + 1) < res_len:
+                            res_len = i - l + 1
+                            res = s[l : i+1]
+                        letter = s[l]
+                        if letter not in need:
+                            l += 1
+                        else:
+                            cur[letter] -= 1
+                            l += 1
+                            if cur[letter] < need[letter]:
+                                fulfilled -= 1
+                                                  #   l   i     
         return res
-
-
-
