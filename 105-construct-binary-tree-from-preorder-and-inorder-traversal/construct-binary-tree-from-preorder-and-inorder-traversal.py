@@ -14,14 +14,13 @@ class Solution:
             if l > r:
                 return
             
-            v = preorder[pre_i]
-            idx = dic[v]
-            node = TreeNode(v)
+            val = preorder[pre_i]
+            node = TreeNode(val)
+            m = dic[val]
             pre_i += 1
-
-            node.left = dfs(l, idx - 1)
-            node.right = dfs(idx + 1, r)
+            node.left = dfs(l, m - 1)
+            node.right = dfs(m + 1, r)
 
             return node
         
-        return dfs(0, len(inorder) - 1)
+        return dfs(0, len(preorder) - 1)
