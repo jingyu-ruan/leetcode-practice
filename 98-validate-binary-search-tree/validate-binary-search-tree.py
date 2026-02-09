@@ -4,15 +4,17 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+from collections import deque
 class Solution:
     def isValidBST(self, root: Optional[TreeNode]) -> bool:
-        def dfs(node, up, low):
-            if not node:
-                return True
-            
-            if not low < node.val < up:
+        q = deque([(root, float('-inf'), float('inf'))])
+        while q:
+            node, low, high = q.popleft()
+            if not low < node.val < high:
                 return False
-            
-            return dfs(node.left, node.val, low) and dfs(node.right, up, node.val)
+            if node.left:
+                q.append((node.left, low, node.val))
+            if node.right:
+                q.append((node.right, node.val, high))
         
-        return dfs(root, float('inf'), float('-inf'))
+        return True
