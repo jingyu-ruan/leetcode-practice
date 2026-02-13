@@ -3,27 +3,23 @@
 #     def __init__(self, val=0, next=None):
 #         self.val = val
 #         self.next = next
-# from collections import defaultdict
 class Solution:
     def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:
         '''
         D 1 2 3 3 4 4 5
-            ↑ p r r
+        c n
         '''
         if not head:
-            return
+            return 
         dummy = ListNode(0, head)
-        prev = dummy
-        cur = head
-        while cur:
-            if cur.next and cur.val == cur.next.val:
-                v = cur.val
-                while cur and cur.val == v:
-                    cur = cur.next
-                prev.next = cur
-            else:
-                prev = cur
-                cur = cur.next
-        
+        cur = dummy
+        nxt = head
+        while cur and nxt:
+            while nxt and nxt.next and nxt.val == nxt.next.val:
+                value = nxt.val
+                while nxt and nxt.val == value:
+                    nxt = nxt.next
+            cur.next = nxt
+            nxt = nxt.next if nxt else None
+            cur = cur.next
         return dummy.next
-            
