@@ -9,19 +9,14 @@ class Solution:
         def dfs(node):
             if not node:
                 return
-
-            if node.left and node.right:
-                node.left, node.right = node.right, node.left
-            elif node.left:
-                node.right = node.left
-                node.left = None
-            elif node.right:
-                node.left = node.right
-                node.right = None
+            left = node.left if node.left else None
+            right = node.right if node.right else None
+            node.right = left
+            node.left = right
 
             dfs(node.left)
             dfs(node.right)
-
-            return root
         
-        return dfs(root)
+        dfs(root)
+        return root
+                
