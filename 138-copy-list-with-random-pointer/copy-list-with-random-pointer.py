@@ -9,21 +9,16 @@ class Node:
 
 class Solution:
     def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
-        if not head:
-            return None 
-
-        dic = {}
+        mirror = {}
         cur = head
         while cur:
-            dic[cur] = Node(cur.val)
+            mirror[cur] = Node(cur.val)
             cur = cur.next
+        cur = head
+        while cur:
+            node = mirror[cur]
+            node.next = mirror[cur.next] if cur.next else None
+            node.random = mirror[cur.random] if cur.random else None
+            cur = cur.next
+        return mirror[head] if head else None
         
-        cur = head
-        while cur:
-            if cur.next:
-                dic[cur].next = dic[cur.next]
-            if cur.random:
-                dic[cur].random = dic[cur.random]
-            cur = cur.next
-
-        return dic[head]
