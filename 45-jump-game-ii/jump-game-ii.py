@@ -3,12 +3,15 @@ class Solution:
         n = len(nums)
         if n == 1:
             return 0
-        dp = [float('inf')] * n
-        dp[0] = 0
-        reach = nums[0]
-
+        jump = 1
+        max_reach = nums[0]
+        next_reach = nums[0]
         for i in range(n):
-            for j in range(i + 1, min(n, i + nums[i] + 1)):
-                dp[j] = min(dp[j], 1 + dp[i])
-
-        return dp[-1]
+            if i > max_reach:
+                jump += 1
+                max_reach = next_reach
+                if max_reach >= n - 1:
+                    return jump
+            next_reach = max(next_reach, i + nums[i])
+        
+        return jump
