@@ -1,34 +1,34 @@
 class Trie:
+
     def __init__(self):
-        self.dic = dict()
-        self.cur = self.dic
+        self.trie = dict()
 
     def insert(self, word: str) -> None:
-        self.cur = self.dic
-        for i in word:
-            if i not in self.cur:
-                self.cur[i] = dict()
-            self.cur = self.cur[i]
-        self.cur['#'] = True
+        cur = self.trie
+        for ch in word:
+            if ch not in cur:
+                cur[ch] = dict()
+            cur = cur[ch]
+        cur['#'] = True
 
     def search(self, word: str) -> bool:
-        self.cur = self.dic
-        for i in word:
-            if i not in self.cur:
+        cur = self.trie
+        for ch in word:
+            if ch not in cur:
                 return False
-            self.cur = self.cur[i]
-        if '#' in self.cur:
+            cur = cur[ch]
+        if '#' in cur and cur['#']:
             return True
+        else:
+            return False
         
-        return False
 
     def startsWith(self, prefix: str) -> bool:
-        self.cur = self.dic
-        for i in prefix:
-            if i not in self.cur:
+        cur = self.trie
+        for ch in prefix:
+            if ch not in cur:
                 return False
-            self.cur = self.cur[i]
-        
+            cur = cur[ch]
         return True
 
 
