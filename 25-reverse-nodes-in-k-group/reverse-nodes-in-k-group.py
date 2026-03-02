@@ -5,31 +5,35 @@
 #         self.next = next
 class Solution:
     def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+        '''
+        D  1  2  3  4  5
+        le cs ce ns 
+        '''
         dummy = ListNode(0, head)
-        def dfs(last_end):
-            cur = last_end
-            cur_start = cur.next
+        last_end = dummy
+        cur_start = last_end.next
+        while True:
+            p = last_end
             for _ in range(k):
-                cur = cur.next
-                if not cur:
-                    return
-            
-            cur_end = cur
-            next_start = cur.next
+                p = p.next
+                if not p:
+                    return dummy.next
+            cur_end = p
+            next_start = p.next
+
             last_end.next = None
             cur_end.next = None
-            # reverse
-            p = cur_start
             prev = None
-            while p:
-                nxt = p.next
-                p.next = prev
-                prev = p
-                p = nxt
+            cur = cur_start
+            while cur:
+                nxt = cur.next
+                cur.next = prev
+                prev = cur
+                cur = nxt
             
-            last_end.next = cur_end
             cur_start.next = next_start
-            dfs(cur_start)
-        
-        dfs(dummy)
-        return dummy.next
+            last_end.next = cur_end
+
+            last_end = cur_start
+            cur_start = last_end.next
+
