@@ -1,7 +1,8 @@
 class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
-        cache = dict()
+        dic = {}
         for i, v in enumerate(nums):
-            if v in cache:
-                return [cache[v], i]
-            cache[target - v] = i
+            if v in dic:
+                return [dic[v], i]
+            dic[target-v] = i
+            
