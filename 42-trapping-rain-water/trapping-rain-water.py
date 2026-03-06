@@ -3,14 +3,14 @@ class Solution:
         n = len(height)
         left = [0] * n
         right = [0] * n
-        pre = height[0]
+        left_max = height[0]
         for i in range(1, n):
-            left[i] = pre
-            pre = max(pre, height[i])
-        post = height[-1]
+            left[i] = left_max
+            left_max = max(left_max, height[i])
+        right_max = height[-1]
         for i in range(n - 2, -1, -1):
-            right[i] = post
-            post = max(post, height[i])
+            right[i] = right_max
+            right_max = max(right_max, height[i])
         
         res = 0
         for i in range(1, n - 1):
