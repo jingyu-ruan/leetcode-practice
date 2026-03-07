@@ -11,13 +11,12 @@ class Solution:
             nums.reverse()
             return
         i -= 1
-        t = n - 1
-        while t > i and nums[t] <= nums[i]:
-            t -= 1
-        nums[i], nums[t] = nums[t], nums[i]
+        j = n - 1
+        while j > i and nums[j] <= nums[i]:
+            j -= 1
+        nums[i], nums[j] = nums[j], nums[i]
         l, r = i + 1, n - 1
         while l < r:
             nums[l], nums[r] = nums[r], nums[l]
             l += 1
             r -= 1
-        
