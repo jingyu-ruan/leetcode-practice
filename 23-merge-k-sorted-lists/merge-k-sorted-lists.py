@@ -8,14 +8,14 @@ class Solution:
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
         heap = []
         i = 0
-        for cur in lists:
-            if cur:
-                heapq.heappush(heap, (cur.val, i, cur))
+        for node in lists:
+            if node:
+                heapq.heappush(heap, (node.val, i, node))
                 i += 1
         dummy = ListNode(0)
         cur = dummy
         while heap:
-            val, j, node = heapq.heappop(heap)
+            v, j, node = heapq.heappop(heap)
             if node.next:
                 heapq.heappush(heap, (node.next.val, i, node.next))
                 i += 1
@@ -23,5 +23,3 @@ class Solution:
             cur = cur.next
         cur.next = None
         return dummy.next
-
-        
