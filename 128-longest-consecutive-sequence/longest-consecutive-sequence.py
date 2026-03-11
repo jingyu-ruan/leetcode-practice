@@ -10,5 +10,5 @@ class Solution:
                     cur += 1
                     k += 1
                 res = max(res, cur)
-
+        
         return res
